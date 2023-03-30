@@ -1,4 +1,4 @@
-import com.sun.jdi.LongType;
+package sorting_tool;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,50 +9,31 @@ public class Main {
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
 
-            /*
-            String dataType = "long";
-            String sortingType = "natural";
-
-            if (argsList.contains("-dataType")) {
-                int i = argsList.indexOf("-dataType");
-                dataType = argsList.get(i + 1);
-            }
-
-            if (argsList.contains("-sortingType")) {
-                int i = argsList.indexOf("-sortingType");
-                sortingType = argsList.get(i + 1);
-            } */
-
-
-
             List<String> argsList = new ArrayList<>(Arrays.asList(args));
+            String[] command = Util.getCommand(argsList);
+            String dataType = command[0];
+            String sortingType = command[1];
 
-            if (argsList.contains("long")) {
-                if (argsList.contains("byCount")) {
-                    LongDataType.sortByCount(sc);
-                } else {
-                    LongDataType.sortNaturally(sc);
-                }
-            }
+            switch (dataType) {
+                case "long":
+                    new SortContext(sc, new LongDataType(), sortingType);
+                    break;
 
-            if (argsList.contains("word")) {
-                if (argsList.contains("byCount")) {
-                    WordDataType.sortByCount(sc);
-                } else {
-                    WordDataType.sortNaturally(sc);
-                }
-            }
+                case "word":
+                    new SortContext(sc, new WordDataType(), sortingType);
+                    break;
 
-            if (argsList.contains("line")) {
-                if (argsList.contains("byCount")) {
-                    LineDataType.sortByCount(sc);
-                } else {
-                    LineDataType.sortNaturally(sc);
-                }
+                case "line":
+                    new SortContext(sc, new LineDataType(), sortingType);
+                    break;
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }
+
 
 /*
 * ⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
