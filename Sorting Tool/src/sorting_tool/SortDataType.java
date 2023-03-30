@@ -1,14 +1,15 @@
 package sorting_tool;
 
+import java.io.*;
 import java.util.*;
 
 public interface SortDataType {
     void sortByCount(Scanner sc);
-    void sortNaturally(Scanner sc);
+    void sortNaturally(Scanner sc, File outputFile);
 }
 
 class LongDataType implements SortDataType {
-    public void sortNaturally(Scanner sc) {
+    public void sortNaturally(Scanner sc, File outputFile) {
         List<Long> numbers = new ArrayList<>();
         while (sc.hasNextLong()) {
             Long num = sc.nextLong();
@@ -18,6 +19,25 @@ class LongDataType implements SortDataType {
 
         System.out.printf("Total numbers: %d.\n", numbers.size());
         numbers.forEach(num -> System.out.print(num + " "));
+
+        if (outputFile != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
+                List<String> forOutput = new ArrayList<>();
+                numbers.forEach(num -> forOutput.add(num.toString()));
+
+                bw.write("Total numbers: " + numbers.size());
+                bw.write("\nSorted data: ");
+
+                for (String s : forOutput) {
+                    bw.write(s + " ");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.printf("Total numbers: %d.\n", numbers.size());
+            numbers.forEach(num -> System.out.print(num + " "));
+        }
     }
 
     public void sortByCount(Scanner sc) {
@@ -42,7 +62,7 @@ class LongDataType implements SortDataType {
 }
 
 class LineDataType implements SortDataType {
-    public void sortNaturally(Scanner sc) {
+    public void sortNaturally(Scanner sc, File outputFile) {
         List<String> lines = new ArrayList<>();
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -50,9 +70,24 @@ class LineDataType implements SortDataType {
         }
         Collections.sort(lines);
 
-        System.out.printf("Total lines: %s.\n", lines.size());
-        System.out.println("Sorted data:");
-        lines.forEach(line -> System.out.print(line + " "));
+        if (outputFile != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
+                List<String> forOutput = new ArrayList<>(lines);
+
+                bw.write("Total numbers: " + lines.size());
+                bw.write("\nSorted data: ");
+
+                for (String s : forOutput) {
+                    bw.write(s + " ");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.printf("Total lines: %s.\n", lines.size());
+            System.out.println("Sorted data:");
+            lines.forEach(line -> System.out.print(line + " "));
+        }
     }
 
     public void sortByCount(Scanner sc) {
@@ -78,7 +113,7 @@ class LineDataType implements SortDataType {
 
 class WordDataType implements SortDataType {
 
-    public void sortNaturally(Scanner sc) {
+    public void sortNaturally(Scanner sc, File outputFile) {
         List<String> words = new ArrayList<>();
         while (sc.hasNext()) {
             String w = sc.next();
@@ -86,9 +121,24 @@ class WordDataType implements SortDataType {
         }
         Collections.sort(words);
 
-        System.out.printf("Total words: %d.\n", words.size());
-        System.out.print("Sorted data: ");
-        words.forEach(word -> System.out.print(word + " "));
+        if (outputFile != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
+                List<String> forOutput = new ArrayList<>(words);
+
+                bw.write("Total numbers: " + words.size());
+                bw.write("\nSorted data: ");
+
+                for (String s : forOutput) {
+                    bw.write(s + " ");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.printf("Total words: %d.\n", words.size());
+            System.out.print("Sorted data: ");
+            words.forEach(word -> System.out.print(word + " "));
+        }
     }
 
     public void sortByCount(Scanner sc) {

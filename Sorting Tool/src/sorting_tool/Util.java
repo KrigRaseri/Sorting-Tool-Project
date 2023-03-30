@@ -12,7 +12,7 @@ public interface Util {
 
         if (!checkDataType(argsList)) commands[0] = "long";
         if (!checkSortType(argsList)) commands[1] = "natural";
-        argValidity(argsList);
+        //argValidity(argsList);
 
         if (checkDataType(argsList)) {
             int i = argsList.indexOf("-dataType");
@@ -26,13 +26,14 @@ public interface Util {
         return commands;
     }
 
+    /*
     private static void argValidity(List<String> argsList) {
         if (argsList.size() > 4) {
             for (int i = 4; i < argsList.size(); i++) {
                 System.out.printf("\"%s\" is not a valid parameter. It will be skipped.\n", argsList.get(i));
             }
         }
-    }
+    } */
 
     private static boolean checkDataType(List<String> argsList) {
         if (argsList.contains("-dataType")) {
