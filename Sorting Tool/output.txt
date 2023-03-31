@@ -1,3 +1,0 @@
-Total long: 3
-77: 1 time(s), 33%
-5: 2 time(s), 67%
