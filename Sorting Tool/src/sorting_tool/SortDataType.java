@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public interface SortDataType {
-    void sortByCount(Scanner sc);
+    void sortByCount(Scanner sc, File outputFile);
     void sortNaturally(Scanner sc, File outputFile);
 }
 
@@ -40,7 +40,7 @@ class LongDataType implements SortDataType {
         }
     }
 
-    public void sortByCount(Scanner sc) {
+    public void sortByCount(Scanner sc, File outputFile) {
         List<Long> numbers = new ArrayList<>();
         TreeMap<Long, Integer> freqCount = new TreeMap<>();
 
@@ -90,7 +90,7 @@ class LineDataType implements SortDataType {
         }
     }
 
-    public void sortByCount(Scanner sc) {
+    public void sortByCount(Scanner sc, File outputFile) {
         TreeMap<String, Integer> freqCount = new TreeMap<>();
         List<String> lines = new ArrayList<>();
 
@@ -103,10 +103,26 @@ class LineDataType implements SortDataType {
         Map<String, Integer> sorted = Util.freqSortHelper(freqCount);
 
         int timesPercent;
-        System.out.printf("Total words: %d.\n", lines.size());
-        for (String val : sorted.keySet()) {
-            timesPercent = (int) Math.round((freqCount.get(val) * 100.0 / lines.size()));
-            System.out.printf("%s: %d time(s), %s%%\n", val, freqCount.get(val), timesPercent);
+
+        if (outputFile != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
+
+                bw.write("Total lines: " + lines.size());
+
+                for (String val : sorted.keySet()) {
+                    timesPercent = (int) Math.round((freqCount.get(val) * 100.0 / lines.size()));
+                    String output = String.format("\n%s: %d time(s), %s%%\n", val, freqCount.get(val), timesPercent);
+                    bw.write(output);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.printf("Total lines: %d.\n", lines.size());
+            for (String val : sorted.keySet()) {
+                timesPercent = (int) Math.round((freqCount.get(val) * 100.0 / lines.size()));
+                System.out.printf("%s: %d time(s), %s%%\n", val, freqCount.get(val), timesPercent);
+            }
         }
     }
 }
@@ -141,7 +157,7 @@ class WordDataType implements SortDataType {
         }
     }
 
-    public void sortByCount(Scanner sc) {
+    public void sortByCount(Scanner sc, File outputFile) {
         TreeMap<String, Integer> freqCount = new TreeMap<>();
         List<String> words = new ArrayList<>();
 
@@ -154,10 +170,24 @@ class WordDataType implements SortDataType {
         Map<String, Integer> sorted = Util.freqSortHelper(freqCount);
 
         int timesPercent;
-        System.out.printf("Total words: %d.\n", words.size());
-        for (String val : sorted.keySet()) {
-            timesPercent = (int) Math.round((freqCount.get(val) * 100.0 / words.size()));
-            System.out.printf("%s: %d time(s), %s%%\n", val, freqCount.get(val), timesPercent);
+        if (outputFile != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
+
+                bw.write("Total words: " + words.size());
+                for (String val : sorted.keySet()) {
+                    timesPercent = (int) Math.round((freqCount.get(val) * 100.0 / words.size()));
+                    String output = String.format("\n%s: %d time(s), %s%%\n", val, freqCount.get(val), timesPercent);
+                    bw.write(output);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.printf("Total words: %d.\n", words.size());
+            for (String val : sorted.keySet()) {
+                timesPercent = (int) Math.round((freqCount.get(val) * 100.0 / words.size()));
+                System.out.printf("%s: %d time(s), %s%%\n", val, freqCount.get(val), timesPercent);
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ public class SortContext {
         if (method.equals("natural")) {
             sdt.sortNaturally(sc, fileOutput);
         } else {
-            sdt.sortByCount(sc);
+            sdt.sortByCount(sc, fileOutput);
         }
     }
 }
